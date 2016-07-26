@@ -1,0 +1,34 @@
+{
+  "name": "yarcode/yii2-async-mailer",
+  "description": "Async mailer decorator for Yii2",
+  "type": "yii2-extension",
+  "keywords": [
+    "yii2",
+    "async",
+    "mailer",
+    "queue"
+  ],
+  "homepage": "http://packagist.org/packages/yarcode/yii2-async-mailer",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Alexey Samoylov",
+      "email": "alexey.samoylov@gmail.com",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "issues": "https://github.com/yarcode/yii2-async-mailer/issues",
+    "source": "https://github.com/yarcode/yii2-async-mailer"
+  },
+  "require": {
+    "yiisoft/yii2": "~2",
+    "bazilio/yii2-async": "^0.2.0",
+    "yarcode/yii2-daemon-yarcode": "^0.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "YarCode\\Yii2\\AsyncMailer\\": "./src"
+    }
+  }
+}
