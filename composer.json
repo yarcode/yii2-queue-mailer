@@ -24,7 +24,7 @@
   "require": {
     "yiisoft/yii2": "~2",
     "bazilio/yii2-async": "^0.2.0",
-    "yarcode/yii2-daemon-yarcode": "^0.2"
+    "yarcode/yii2-daemon": "^0.3"
   },
   "autoload": {
     "psr-4": {
