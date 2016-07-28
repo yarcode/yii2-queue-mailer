@@ -11,7 +11,7 @@ use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\mail\MailerInterface;
 
-class AsyncMailerComponent extends Component implements MailerInterface
+class Mailer extends Component implements MailerInterface
 {
     public $asyncComponentName = 'async';
 

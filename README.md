@@ -22,11 +22,11 @@ or add
 Configure `async` component of your application. 
 You can find the details here: https://packagist.org/packages/bazilio/yii2-async
 
-Configure `YarCode\Yii2\AsyncMailer\AsyncMailerComponent` as your primary mailer.
+Configure `YarCode\Yii2\AsyncMailer\Mailer` as your primary mailer.
 
 ```
   'mailer' => [
-      'class' => '\YarCode\Yii2\AsyncMailer\AsyncMailerComponent',
+      'class' => '\YarCode\Yii2\AsyncMailer\Mailer',
       'syncMailer' => [
           'class' => 'yii\swiftmailer\Mailer',
           'useFileTransport' => true,

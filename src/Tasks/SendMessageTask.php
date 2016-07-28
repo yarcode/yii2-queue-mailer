@@ -5,7 +5,7 @@
 namespace YarCode\Yii2\AsyncMailer\Tasks;
 
 use bazilio\async\models\AsyncTask;
-use YarCode\Yii2\AsyncMailer\AsyncMailerComponent;
+use YarCode\Yii2\AsyncMailer\Mailer;
 use yii\base\InvalidConfigException;
 use yii\mail\MessageInterface;
 
@@ -29,8 +29,8 @@ class SendMessageTask extends AsyncTask
     public function execute()
     {
         $asyncMailer = \Yii::$app->get($this->mailerComponent);
-        if (!$asyncMailer instanceof AsyncMailerComponent) {
-            throw new InvalidConfigException('Mailer must be an instance of ' . AsyncMailerComponent::class);
+        if (!$asyncMailer instanceof Mailer) {
+            throw new InvalidConfigException('Mailer must be an instance of ' . Mailer::class);
         }
 
         return $asyncMailer->getSyncMailer()->send($this->mailMessage);
