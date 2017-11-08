@@ -36,14 +36,14 @@ class Mailer extends Component implements MailerInterface
     {
         $task = new SendMessageTask();
         $task->setMailMessage($message);
-        $this->getAsyncComponent()->sendTask($task);
+        return $this->getAsyncComponent()->sendTask($task);
     }
 
     public function sendMultiple(array $messages)
     {
         $task = new SendMultipleMessagesTask();
         $task->setMailMessages($messages);
-        $this->getAsyncComponent()->sendTask($task);
+        return $this->getAsyncComponent()->sendTask($task);
     }
 
     /**
