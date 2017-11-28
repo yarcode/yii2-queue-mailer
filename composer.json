@@ -1,5 +1,5 @@
 {
-  "name": "grptx/yii2-async-mailer",
+  "name": "yarcode/yii2-async-mailer",
   "description": "Async mailer decorator for Yii2",
   "type": "yii2-extension",
   "keywords": [
@@ -23,9 +23,7 @@
   },
   "require": {
     "yiisoft/yii2": "~2",
-    "bazilio/yii2-async": "^0.2.0",
-    "yarcode/yii2-daemon": "^0.3",
-    "yarcode/yii2-async-mailer": "*"
+    "bazilio/yii2-async": "^0.2.0"
   },
   "autoload": {
     "psr-4": {
