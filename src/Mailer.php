@@ -43,10 +43,12 @@ class Mailer extends Component implements MailerInterface
     /**
      * @inheritdoc
      * @see MailerInterface::send()
+     *
+     * @throws InvalidConfigException
      */
     public function send($message)
     {
-        $job = new SendMessageJob();
+        $job = \Yii::createObject(SendMessageJob::class);
         $job->mailer = $this->id;
         $job->message = $message;
         return $this->queue->push($job);
@@ -55,10 +57,12 @@ class Mailer extends Component implements MailerInterface
     /**
      * @inheritdoc
      * @see MailerInterface::sendMultiple()
+     *
+     * @throws InvalidConfigException
      */
     public function sendMultiple(array $messages)
     {
-        $job = new SendMultipleMessagesJob();
+        $job = \Yii::createObject(SendMultipleMessagesJob::class);
         $job->mailer = $this->id;
         $job->messages = $messages;
         return $this->queue->push($job);
