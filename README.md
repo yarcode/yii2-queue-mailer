@@ -1,9 +1,10 @@
 # Queue mailer decorator for Yii2 framework
 Send your emails in the background using Yii2 queues.
 
-[![Build Status](https://travis-ci.org/yarcode/yii2-queue-mailer.svg?branch=master)](https://travis-ci.org/yarcode/yii2-mailgun-mailer)
-[![GitHub license](https://img.shields.io/github/license/yarcode/yii2-queue-mailer.svg)](https://github.com/yarcode/yii2-mailgun-mailer/blob/master/LICENSE.md)
-
+[![Build Status](https://travis-ci.org/yarcode/yii2-queue-mailer.svg?branch=master)](https://travis-ci.org/yarcode/yii2-queue-mailer)
+[![Latest Stable Version](https://poser.pugx.org/yarcode/yii2-queue-mailer/v/stable)](https://packagist.org/packages/yarcode/yii2-queue-mailer)
+[![Total Downloads](https://poser.pugx.org/yarcode/yii2-queue-mailer/downloads)](https://packagist.org/packages/yarcode/yii2-queue-mailer)
+[![License](https://poser.pugx.org/yarcode/yii2-queue-mailer/license)](https://packagist.org/packages/yarcode/yii2-queue-mailer)
 
 ## Installation
 
