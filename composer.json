@@ -1,6 +1,6 @@
 {
-  "name": "yarcode/yii2-async-mailer",
-  "description": "Async mailer decorator for Yii2",
+  "name": "yarcode/yii2-queue-mailer",
+  "description": "Queue mailer decorator for Yii2 framework",
   "type": "yii2-extension",
   "keywords": [
     "yii2",
@@ -8,7 +8,7 @@
     "mailer",
     "queue"
   ],
-  "homepage": "http://packagist.org/packages/yarcode/yii2-async-mailer",
+  "homepage": "http://packagist.org/packages/yarcode/yii2-queue-mailer",
   "license": "MIT",
   "authors": [
     {
@@ -18,17 +18,31 @@
     }
   ],
   "support": {
-    "issues": "https://github.com/yarcode/yii2-async-mailer/issues",
-    "source": "https://github.com/yarcode/yii2-async-mailer"
+    "issues": "https://github.com/yarcode/yii2-queue-mailer/issues",
+    "source": "https://github.com/yarcode/yii2-queue-mailer"
   },
   "require": {
+    "php": ">=5.6",
     "yiisoft/yii2": "~2",
-    "bazilio/yii2-async": "^0.2.0",
-    "yarcode/yii2-daemon": "^0.3"
+    "yiisoft/yii2-queue": "~2"
   },
+  "require-dev": {
+    "phpunit/phpunit": "^7",
+    "yiisoft/yii2-swiftmailer": "~2"
+  },
+  "scripts": {
+    "test": "vendor/bin/phpunit",
+    "test-win": "vendor\\bin\\phpunit.bat"
+  },
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://asset-packagist.org"
+    }
+  ],
   "autoload": {
     "psr-4": {
-      "YarCode\\Yii2\\AsyncMailer\\": "./src"
+      "YarCode\\Yii2\\QueueMailer\\": "./src"
     }
   }
 }

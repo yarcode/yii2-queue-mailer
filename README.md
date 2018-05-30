@@ -1,5 +1,9 @@
-# yarcode/yii2-async-mailer
-Async mailer decorator for Yii2
+# Queue mailer decorator for Yii2 framework
+Send your emails in the background using Yii2 queues.
+
+[![Build Status](https://travis-ci.org/yarcode/yii2-queue-mailer.svg?branch=master)](https://travis-ci.org/yarcode/yii2-mailgun-mailer)
+[![GitHub license](https://img.shields.io/github/license/yarcode/yii2-queue-mailer.svg)](https://github.com/yarcode/yii2-mailgun-mailer/blob/master/LICENSE.md)
+
 
 ## Installation
 
@@ -8,42 +12,29 @@ The preferred way to install this extension is through [composer](http://getcomp
 Either run
 
 ```
-php composer.phar require --prefer-dist yarcode/yii2-async-mailer
+php composer.phar require --prefer-dist yarcode/yii2-queue-mailer
 ```
 
 or add
 
 ```json
-"yarcode/yii2-async-mailer": "*"
+"yarcode/yii2-queue-mailer": "*"
 ```
 
 ## Usage
 
-Configure `async` component of your application. 
-You can find the details here: https://packagist.org/packages/bazilio/yii2-async
+Configure `queue` component of your application.
+You can find the details here: https://www.yiiframework.com/extension/yiisoft/yii2-queue
 
-Configure `YarCode\Yii2\AsyncMailer\Mailer` as your primary mailer.
-
+Configure `YarCode\Yii2\QueueMailer\Mailer` as your primary mailer.
 ```
   'mailer' => [
-      'class' => '\YarCode\Yii2\AsyncMailer\Mailer',
+      'class' => \YarCode\Yii2\QueueMailer\Mailer::class,
       'syncMailer' => [
-          'class' => 'yii\swiftmailer\Mailer',
+          'class' => \yii\swiftmailer\Mailer::class,
           'useFileTransport' => true,
       ],
   ],
-```
-Add mailer command to the console config file.
-```
-  'controllerMap' => [
-      'mailer' => [
-          'class' => '\YarCode\Yii2\AsyncMailer\MailerCommand',
-      ],
-  ],
-```
-Run the mailer daemon in the background.
-```
-yii mailer/daemon
 ```
 Now you can send your emails as usual.
 ```
