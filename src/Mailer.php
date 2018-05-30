@@ -5,7 +5,7 @@
 namespace YarCode\Yii2\QueueMailer;
 
 use YarCode\Yii2\QueueMailer\Jobs\SendMultipleMessagesJob;
-use YarCode\Yii2\QueueMailer\Mailer\Jobs\SendMessageJob;
+use YarCode\Yii2\QueueMailer\Jobs\SendMessageJob;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
@@ -27,8 +27,8 @@ class Mailer extends Component implements MailerInterface
     public function init()
     {
         parent::init();
-        Instance::ensure($this->queue, Queue::class);
-        Instance::ensure($this->syncMailer, MailerInterface::class);
+        $this->queue = Instance::ensure($this->queue, Queue::class);
+        $this->syncMailer = Instance::ensure($this->syncMailer, MailerInterface::class);
     }
 
     /**
