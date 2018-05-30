@@ -28,6 +28,7 @@ Configure `queue` component of your application.
 You can find the details here: https://www.yiiframework.com/extension/yiisoft/yii2-queue
 
 Configure `YarCode\Yii2\QueueMailer\Mailer` as your primary mailer.
+
 ```
   'mailer' => [
       'class' => \YarCode\Yii2\QueueMailer\Mailer::class,
@@ -37,7 +38,9 @@ Configure `YarCode\Yii2\QueueMailer\Mailer` as your primary mailer.
       ],
   ],
 ```
+
 Now you can send your emails as usual.
+
 ```
 $message = \Yii::$app->mailer->compose()
   ->setSubject('test subject')
