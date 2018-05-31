@@ -17,18 +17,46 @@ class Mailer extends Component implements MailerInterface
     /** @var string */
     public $id = 'mailer';
     /** @var Queue */
-    public $queue = 'queue';
+    protected $queue = 'queue';
     /** @var MailerInterface */
-    public $syncMailer;
+    protected $syncMailer;
 
     /**
-     * @throws InvalidConfigException
+     * @return Queue
      */
-    public function init()
+    public function getQueue()
     {
-        parent::init();
-        $this->queue = Instance::ensure($this->queue, Queue::class);
-        $this->syncMailer = Instance::ensure($this->syncMailer, MailerInterface::class);
+        if (is_callable($this->queue)) {
+            $this->queue = call_user_func($this->queue);
+        }
+        return $this->queue = Instance::ensure($this->queue, Queue::class);
+    }
+
+    /**
+     * @param mixed $queue
+     */
+    public function setQueue($queue)
+    {
+        $this->queue = $queue;
+    }
+
+    /**
+     * @return MailerInterface
+     */
+    public function getSyncMailer()
+    {
+        if (is_callable($this->syncMailer)) {
+            $this->syncMailer = call_user_func($this->syncMailer);
+        }
+        return $this->syncMailer = Instance::ensure($this->syncMailer, MailerInterface::class);
+    }
+
+    /**
+     * @param mixed $syncMailer
+     */
+    public function setSyncMailer($syncMailer)
+    {
+        $this->syncMailer = $syncMailer;
     }
 
     /**
@@ -37,7 +65,7 @@ class Mailer extends Component implements MailerInterface
      */
     public function compose($view = null, array $params = [])
     {
-        return $this->syncMailer->compose($view, $params);
+        return $this->getSyncMailer()->compose($view, $params);
     }
 
     /**
@@ -51,7 +79,7 @@ class Mailer extends Component implements MailerInterface
         $job = \Yii::createObject(SendMessageJob::class);
         $job->mailer = $this->id;
         $job->message = $message;
-        return $this->queue->push($job);
+        return $this->getQueue()->push($job);
     }
 
     /**
@@ -65,6 +93,6 @@ class Mailer extends Component implements MailerInterface
         $job = \Yii::createObject(SendMultipleMessagesJob::class);
         $job->mailer = $this->id;
         $job->messages = $messages;
-        return $this->queue->push($job);
+        return $this->getQueue()->push($job);
     }
 }
