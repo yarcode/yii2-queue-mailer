@@ -22,7 +22,8 @@ class Mailer extends Component implements MailerInterface
     protected $syncMailer;
 
     /**
-     * @return Queue
+     * @return object|Queue
+     * @throws InvalidConfigException
      */
     public function getQueue()
     {
@@ -41,7 +42,8 @@ class Mailer extends Component implements MailerInterface
     }
 
     /**
-     * @return MailerInterface
+     * @return object|MailerInterface
+     * @throws InvalidConfigException
      */
     public function getSyncMailer()
     {
