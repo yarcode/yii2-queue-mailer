@@ -50,3 +50,11 @@ $message = \Yii::$app->mailer->compose()
 
 \Yii::$app->mailer->send($message);
 ```
+## Licence ##
+
+MIT
+    
+## Links ##
+
+* [GitHub repository](https://github.com/yarcode/yii2-queue-mailer)
+* [Composer package](https://packagist.org/packages/yarcode/yii2-queue-mailer)
