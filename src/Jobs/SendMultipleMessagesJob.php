@@ -30,9 +30,8 @@ class SendMultipleMessagesJob implements JobInterface
         if (!is_array($this->messages)) {
             throw new \InvalidArgumentException('Message must be an instance of ' . MessageInterface::class);
         }
-
         /** @var Mailer $mailer */
         $mailer = Instance::ensure($this->mailer, Mailer::class);
-        return $mailer->syncMailer->sendMultiple($this->messages);
+        return $mailer->getSyncMailer()->sendMultiple($this->messages);
     }
 }

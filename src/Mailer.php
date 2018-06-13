@@ -20,6 +20,8 @@ class Mailer extends Component implements MailerInterface
     protected $queue = 'queue';
     /** @var MailerInterface */
     protected $syncMailer;
+    /** @var int|null */
+    protected $lastJobId;
 
     /**
      * @return object|Queue
@@ -81,7 +83,8 @@ class Mailer extends Component implements MailerInterface
         $job = \Yii::createObject(SendMessageJob::class);
         $job->mailer = $this->id;
         $job->message = $message;
-        return $this->getQueue()->push($job);
+        $this->lastJobId = $this->getQueue()->push($job);
+        return $this->lastJobId !== null;
     }
 
     /**
@@ -95,6 +98,19 @@ class Mailer extends Component implements MailerInterface
         $job = \Yii::createObject(SendMultipleMessagesJob::class);
         $job->mailer = $this->id;
         $job->messages = $messages;
-        return $this->getQueue()->push($job);
+        $this->lastJobId = $this->getQueue()->push($job);
+        if ($this->lastJobId !== null) {
+            return count($messages);
+        } else {
+            return 0;
+        }
+    }
+
+    /**
+     * @return int|null
+     */
+    public function getLastJobId()
+    {
+        return $this->lastJobId;
     }
 }
