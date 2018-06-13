@@ -50,6 +50,12 @@ $message = \Yii::$app->mailer->compose()
 
 \Yii::$app->mailer->send($message);
 ```
+
+You can also get a background job ID of the last `send()` or `sendMultiple()` call.
+```
+$jobId = \Yii::$app->mailer->getLastJobId();
+```
+ 
 ## Licence ##
 
 MIT
