@@ -1,11 +1,9 @@
 <?php
-/**
- * @author Alexey Samoylov <alexey.samoylov@gmail.com>
- */
-namespace YarCode\Yii2\QueueMailer;
 
-use YarCode\Yii2\QueueMailer\Jobs\SendMultipleMessagesJob;
-use YarCode\Yii2\QueueMailer\Jobs\SendMessageJob;
+namespace cusodede\QueueMailer;
+
+use cusodede\QueueMailer\jobs\SendMultipleMessagesJob;
+use cusodede\QueueMailer\jobs\SendMessageJob;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;

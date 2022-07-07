@@ -3,9 +3,9 @@
  * @author Alexey Samoylov <alexey.samoylov@gmail.com>
  */
 
-namespace YarCode\Yii2\QueueMailer\Jobs;
+namespace cusodede\QueueMailer\jobs;
 
-use YarCode\Yii2\QueueMailer\Mailer;
+use cusodede\QueueMailer\Mailer;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\mail\MessageInterface;
