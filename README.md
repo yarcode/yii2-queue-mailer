@@ -1,66 +1,52 @@
 # Queue mailer decorator for Yii2 framework
 Send your emails in the background using Yii2 queues.
 
-[![Build Status](https://travis-ci.org/yarcode/yii2-queue-mailer.svg?branch=master)](https://travis-ci.org/yarcode/yii2-queue-mailer)
-[![Latest Stable Version](https://poser.pugx.org/yarcode/yii2-queue-mailer/v/stable)](https://packagist.org/packages/yarcode/yii2-queue-mailer)
-[![Total Downloads](https://poser.pugx.org/yarcode/yii2-queue-mailer/downloads)](https://packagist.org/packages/yarcode/yii2-queue-mailer)
-[![License](https://poser.pugx.org/yarcode/yii2-queue-mailer/license)](https://packagist.org/packages/yarcode/yii2-queue-mailer)
+# Установка
 
-## Installation
-
-The preferred way to install this extension is through [composer](http://getcomposer.org/download/).
-
-Either run
+Installation
 
 ```
-php composer.phar require --prefer-dist yarcode/yii2-queue-mailer
+{
+	"type": "vcs",
+	"url": "https://github.com/cusodede/yii2-queue-mailer.git"
+}
 ```
 
-or add
-
-```json
-"yarcode/yii2-queue-mailer": "*"
-```
-
-## Usage
-
-Configure `queue` component of your application.
-You can find the details here: https://www.yiiframework.com/extension/yiisoft/yii2-queue
-
-Configure `YarCode\Yii2\QueueMailer\Mailer` as your primary mailer.
+В секцию `repositories` файла `composer.json`, затем запускаем
 
 ```
-  'mailer' => [
-      'class' => \YarCode\Yii2\QueueMailer\Mailer::class,
-      'syncMailer' => [
-          'class' => \yii\swiftmailer\Mailer::class,
-          'useFileTransport' => true,
-      ],
-  ],
+php composer.phar require cusodede/yii2-queue-mailer "^2.0.0"
 ```
 
-Now you can send your emails as usual.
+или добавляем
 
 ```
-$message = \Yii::$app->mailer->compose()
-  ->setSubject('test subject')
-  ->setFrom('test@example.org')
-  ->setHtmlBody('test body')
-  ->setTo('user@example.org');
-
-\Yii::$app->mailer->send($message);
+"cusodede/yii2-opentracing": "^2.0.0"
 ```
 
-You can also get a background job ID of the last `send()` or `sendMultiple()` call.
-```
-$jobId = \Yii::$app->mailer->getLastJobId();
-```
- 
-## Licence ##
+в секцию `require`.
 
-MIT
-    
-## Links ##
+# Подключение
 
-* [GitHub repository](https://github.com/yarcode/yii2-queue-mailer)
-* [Composer package](https://packagist.org/packages/yarcode/yii2-queue-mailer)
+```php
+$config = [
+	...
+	'bootstrap' => ['log', 'opentracing'], //Обязательно добавляем в bootstrap
+	...
+	'components' => [
+		...
+		'mailer' => [
+			'class' => Mailer::class, // Подключаемый Mailer
+			'queue' => 'emailQueue', // Наша очередь
+			'syncMailer' => [
+				'class' => SwiftMailer::class, // Базовый Mailer
+				'useFileTransport' => 'prod' !== YII_ENV,
+				'transport' => [
+					'class' => Swift_SmtpTransport::class,
+					'host' => 'mailrelay.vimpelcom.ru',
+				],
+			],
+		],
+		...
+];
+```
