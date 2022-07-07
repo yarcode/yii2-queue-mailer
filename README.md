@@ -21,7 +21,7 @@ php composer.phar require cusodede/yii2-queue-mailer "^2.0.0"
 или добавляем
 
 ```
-"cusodede/yii2-opentracing": "^2.0.0"
+"cusodede/yii2-queue-mailer": "^2.0.0"
 ```
 
 в секцию `require`.
