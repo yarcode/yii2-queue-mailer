@@ -1,54 +1,68 @@
 <?php
-/**
- * @author Alexey Samoylov <alexey.samoylov@gmail.com>
- */
-class SendMessageJobTest extends \PHPUnit\Framework\TestCase
+declare(strict_types = 1);
+
+use PHPUnit\Framework\TestCase;
+use cusodede\QueueMailer\Mailer;
+use yii\mail\MessageInterface;
+use cusodede\QueueMailer\jobs\SendMessageJob;
+use yii\base\InvalidConfigException;
+use yii\queue\sync\Queue;
+use yii\swiftmailer\Mailer as SwiftMailer;
+use yii\base\ErrorException;
+use yii\helpers\FileHelper;
+
+class SendMessageJobTest extends TestCase
 {
-    /** @var \YarCode\Yii2\QueueMailer\Mailer */
-    public $mailer;
-    /** @var \yii\mail\MessageInterface */
-    public $message;
-    /** @var \YarCode\Yii2\QueueMailer\Jobs\SendMessageJob */
-    public $a;
+	public Mailer $mailer;
 
-    /**
-     * @throws \yii\base\InvalidConfigException
-     */
-    public function setUp()
-    {
-        parent::setUp();
+	public MessageInterface $message;
 
-        $this->mailer = \Yii::createObject([
-            'class' => \YarCode\Yii2\QueueMailer\Mailer::class,
-            'queue' => [
-                'class' => \yii\queue\sync\Queue::class,
-                'handle' => false, // whether tasks should be executed immediately
-            ],
-            'syncMailer' => [
-                'class' => \yii\swiftmailer\Mailer::class,
-                'useFileTransport' => true,
-            ],
-        ]);
+	public SendMessageJob $a;
 
-        $this->message = $this->mailer->compose();
-        $this->message->setTo('test@example.org');
-        $this->message->setFrom('no-reply@example.org');
-        $this->message->setHtmlBody('test message');
+	/**
+	 * @throws InvalidConfigException
+	 */
+	public function setUp(): void
+	{
+		parent::setUp();
 
-        $this->a = \Yii::createObject([
-            'class' => \YarCode\Yii2\QueueMailer\Jobs\SendMessageJob::class,
-            'mailer' => $this->mailer,
-            'message' => $this->message,
-        ]);
-    }
+		$this->mailer = Yii::createObject([
+			'class' => Mailer::class,
+			'queue' => [
+				'class' => Queue::class,
+				'handle' => false, // whether tasks should be executed immediately
+			],
+			'syncMailer' => [
+				'class' => SwiftMailer::class,
+				'useFileTransport' => true,
+			],
+		]);
 
-    protected function tearDown()/* The :void return type declaration that should be here would cause a BC issue */
-    {
-        \yii\helpers\FileHelper::removeDirectory(Yii::getAlias('@runtime/mail'));
-    }
+		$this->message = $this->mailer->compose();
+		$this->message->setTo('test@example.org');
+		$this->message->setFrom('no-reply@example.org');
+		$this->message->setHtmlBody('test message');
 
-    public function testExecute()
-    {
-        $this->assertTrue($this->a->execute($this->mailer->queue));
-    }
+		$this->a = Yii::createObject([
+			'class' => SendMessageJob::class,
+			'mailer' => $this->mailer,
+			'message' => $this->message,
+		]);
+	}
+
+	/**
+	 * @throws ErrorException
+	 */
+	public function tearDown(): void
+	{
+		FileHelper::removeDirectory(Yii::getAlias('@runtime/mail'));
+	}
+
+	/**
+	 * @throws InvalidConfigException
+	 */
+	public function testExecute()
+	{
+		$this->assertTrue($this->a->execute($this->mailer->queue));
+	}
 }
