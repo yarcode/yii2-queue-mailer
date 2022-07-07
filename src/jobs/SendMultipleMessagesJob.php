@@ -1,7 +1,5 @@
 <?php
-/**
- * @author Alexey Samoylov <alexey.samoylov@gmail.com>
- */
+declare(strict_types = 1);
 
 namespace cusodede\QueueMailer\jobs;
 
@@ -10,28 +8,27 @@ use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\mail\MessageInterface;
 use yii\queue\JobInterface;
+use InvalidArgumentException;
 
 class SendMultipleMessagesJob implements JobInterface
 {
-    /** @var MessageInterface[] */
-    public $messages = [];
-    /** @var string */
-    public $mailer;
+	public array|MessageInterface $messages = [];
 
-    /**
-     * @inheritdoc
-     * @see JobInterface::execute()
-     *
-     * @throws InvalidConfigException
-     * @throws \InvalidArgumentException
-     */
-    public function execute($queue)
-    {
-        if (!is_array($this->messages)) {
-            throw new \InvalidArgumentException('Message must be an instance of ' . MessageInterface::class);
-        }
-        /** @var Mailer $mailer */
-        $mailer = Instance::ensure($this->mailer, Mailer::class);
-        return $mailer->getSyncMailer()->sendMultiple($this->messages);
-    }
+	public string|Mailer $mailer = Mailer::class;
+
+	/**
+	 * @see JobInterface::execute()
+	 *
+	 * @throws InvalidConfigException
+	 * @throws InvalidArgumentException
+	 */
+	public function execute($queue): int
+	{
+		if (false === is_array($this->messages)) {
+			throw new InvalidArgumentException('Message must be an instance of ' . MessageInterface::class);
+		}
+		/** @var Mailer $mailer */
+		$mailer = Instance::ensure($this->mailer, Mailer::class);
+		return $mailer->getSyncMailer()->sendMultiple($this->messages);
+	}
 }

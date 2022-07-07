@@ -1,114 +1,116 @@
 <?php
+declare(strict_types = 1);
 
 namespace cusodede\QueueMailer;
 
-use cusodede\QueueMailer\jobs\SendMultipleMessagesJob;
-use cusodede\QueueMailer\jobs\SendMessageJob;
+use Yii;
 use yii\base\Component;
 use yii\base\InvalidConfigException;
 use yii\di\Instance;
 use yii\mail\MailerInterface;
 use yii\queue\Queue;
+use yii\swiftmailer\Mailer as SwiftMailer;
+use cusodede\QueueMailer\jobs\SendMultipleMessagesJob;
+use cusodede\QueueMailer\jobs\SendMessageJob;
+use yii\mail\MessageInterface;
 
+/**
+ * Декоратор Mailer с функционалом очереди.
+ *
+ * @property string|array|Queue $queue
+ */
 class Mailer extends Component implements MailerInterface
 {
-    /** @var string */
-    public $id = 'mailer';
-    /** @var Queue */
-    protected $queue = 'queue';
-    /** @var MailerInterface */
-    protected $syncMailer;
-    /** @var int|null */
-    protected $lastJobId;
+	/**
+	 * @var string|self Компонент Mailer.
+	 */
+	public string|self $id = 'mailer';
 
-    /**
-     * @return object|Queue
-     * @throws InvalidConfigException
-     */
-    public function getQueue()
-    {
-        if (is_callable($this->queue)) {
-            $this->queue = call_user_func($this->queue);
-        }
-        return $this->queue = Instance::ensure($this->queue, Queue::class);
-    }
+	/**
+	 * @var string|array|Queue Компонент очереди.
+	 */
+	protected string|array|Queue $queue = Queue::class;
 
-    /**
-     * @param mixed $queue
-     */
-    public function setQueue($queue)
-    {
-        $this->queue = $queue;
-    }
+	/**
+	 * @var string|array|SwiftMailer Декорируемый Mailer.
+	 */
+	protected string|array|MailerInterface $syncMailer = SwiftMailer::class;
 
-    /**
-     * @return object|MailerInterface
-     * @throws InvalidConfigException
-     */
-    public function getSyncMailer()
-    {
-        if (is_callable($this->syncMailer)) {
-            $this->syncMailer = call_user_func($this->syncMailer);
-        }
-        return $this->syncMailer = Instance::ensure($this->syncMailer, MailerInterface::class);
-    }
+	/**
+	 * Идентификатор задания.
+	 */
+	protected string $lastJobId = '';
 
-    /**
-     * @param mixed $syncMailer
-     */
-    public function setSyncMailer($syncMailer)
-    {
-        $this->syncMailer = $syncMailer;
-    }
+	/**
+	 * @throws InvalidConfigException
+	 */
+	public function getQueue(): array|object|string
+	{
+		if (is_callable($this->queue)) {
+			$this->queue = call_user_func($this->queue);
+		}
+		return $this->queue = Instance::ensure($this->queue, Queue::class);
+	}
 
-    /**
-     * @inheritdoc
-     * @see MailerInterface::compose()
-     */
-    public function compose($view = null, array $params = [])
-    {
-        return $this->getSyncMailer()->compose($view, $params);
-    }
+	public function setQueue(string|array|Queue $queue): void
+	{
+		$this->queue = $queue;
+	}
 
-    /**
-     * @inheritdoc
-     * @see MailerInterface::send()
-     *
-     * @throws InvalidConfigException
-     */
-    public function send($message)
-    {
-        $job = \Yii::createObject(SendMessageJob::class);
-        $job->mailer = $this->id;
-        $job->message = $message;
-        $this->lastJobId = $this->getQueue()->push($job);
-        return $this->lastJobId !== null;
-    }
+	/**
+	 * @throws InvalidConfigException
+	 */
+	public function getSyncMailer(): array|object|string
+	{
+		if (is_callable($this->syncMailer)) {
+			$this->syncMailer = call_user_func($this->syncMailer);
+		}
+		return $this->syncMailer = Instance::ensure($this->syncMailer, MailerInterface::class);
+	}
 
-    /**
-     * @inheritdoc
-     * @see MailerInterface::sendMultiple()
-     *
-     * @throws InvalidConfigException
-     */
-    public function sendMultiple(array $messages)
-    {
-        $job = \Yii::createObject(SendMultipleMessagesJob::class);
-        $job->mailer = $this->id;
-        $job->messages = $messages;
-        $this->lastJobId = $this->getQueue()->push($job);
-        if ($this->lastJobId !== null) {
-            return count($messages);
-        } else {
-            return 0;
-        }
-    }
+	public function setSyncMailer(array $syncMailer): void
+	{
+		$this->syncMailer = $syncMailer;
+	}
 
-    /**
-     * @return int|null
-     */
-    public function getLastJobId()
-    {
-        return $this->lastJobId;
-    }
+	/**
+	 * @see MailerInterface::compose()
+	 *
+	 * @throws InvalidConfigException
+	 */
+	public function compose(mixed $view = null, array $params = []): MessageInterface
+	{
+		return $this->getSyncMailer()->compose($view, $params);
+	}
+
+	/**
+	 * @see MailerInterface::send()
+	 *
+	 * @throws InvalidConfigException
+	 */
+	public function send(mixed $message): bool
+	{
+		$job = Yii::createObject(SendMessageJob::class);
+		$job->mailer = $this->id;
+		$job->message = $message;
+		return null !== $this->getQueue()->push($job);
+	}
+
+	/**
+	 * @see MailerInterface::sendMultiple()
+	 *
+	 * @throws InvalidConfigException
+	 */
+	public function sendMultiple(mixed $messages): int
+	{
+		$job = Yii::createObject(SendMultipleMessagesJob::class);
+		$job->mailer = $this->id;
+		$job->messages = $messages;
+		return null !== $this->getQueue()->push($job) ? count($messages) : 0;
+	}
+
+	public function getLastJobId(): null|string
+	{
+		return $this->lastJobId;
+	}
 }
