@@ -34,7 +34,7 @@
   ],
   "autoload": {
     "psr-4": {
-      "YarCode\\Yii2\\QueueMailer\\": "./src"
+      "cusodede\\QueueMailer\\": "./src"
     }
   }
 }
