@@ -41,7 +41,7 @@ $config = [
 				'useFileTransport' => 'prod' !== YII_ENV,
 				'transport' => [
 					'class' => Swift_SmtpTransport::class,
-					'host' => 'mailrelay.vimpelcom.ru',
+					'host' => 'mailrelay.******.ru',
 				],
 			],
 		],
