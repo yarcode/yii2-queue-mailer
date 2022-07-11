@@ -1,0 +1,25 @@
+name: Run tests
+on:
+  pull_request:
+    branches: [ master ]
+
+env:
+  COMPOSE_PROJECT_NAME: yii2-queue-mailer
+  COMPOSE_FILE: tests/docker/docker-compose.yml
+jobs:
+  phpunit:
+    name: PHP ${{ matrix.php }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        php: [ 80 ]
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Build
+        run: make build
+
+      - name: Run tests for PHP ${{ matrix.php }}
+        run: make test${{ matrix.php }}

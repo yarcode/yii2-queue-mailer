@@ -1,19 +1,19 @@
 version: '3.8'
 
 services:
-  php-80:
+  php80:
     container_name: mail_queue
     hostname: mail_queue
     build: ./php/8.0
     volumes:
+      - ./runtime/.composer80:/root/.composer
       - ../..:/var/www
+    dns:
+      - 8.8.8.8
+      - 4.4.4.4
     networks:
       - mail-queue-network
 
 networks:
   mail-queue-network:
     driver: bridge
-    ipam:
-      driver: default
-      config:
-        - subnet: 192.168.250.0/28
