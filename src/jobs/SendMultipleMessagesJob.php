@@ -10,6 +10,9 @@ use yii\mail\MessageInterface;
 use yii\queue\JobInterface;
 use InvalidArgumentException;
 
+/**
+ * Class SendMultipleMessagesJob
+ */
 class SendMultipleMessagesJob implements JobInterface
 {
 	public array|MessageInterface $messages = [];

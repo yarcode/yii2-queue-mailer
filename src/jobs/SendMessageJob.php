@@ -11,6 +11,9 @@ use yii\mail\MessageInterface;
 use yii\queue\JobInterface;
 use InvalidArgumentException;
 
+/**
+ * Class SendMessageJob
+ */
 class SendMessageJob extends BaseObject implements JobInterface
 {
 	public array|MessageInterface $message = [];

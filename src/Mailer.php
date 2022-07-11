@@ -52,6 +52,10 @@ class Mailer extends Component implements MailerInterface
 		return $this->queue = Instance::ensure($this->queue, Queue::class);
 	}
 
+	/**
+	 * @param string|array|Queue $queue
+	 * @return void
+	 */
 	public function setQueue(string|array|Queue $queue): void
 	{
 		$this->queue = $queue;
@@ -68,6 +72,10 @@ class Mailer extends Component implements MailerInterface
 		return $this->syncMailer = Instance::ensure($this->syncMailer, MailerInterface::class);
 	}
 
+	/**
+	 * @param array $syncMailer
+	 * @return void
+	 */
 	public function setSyncMailer(array $syncMailer): void
 	{
 		$this->syncMailer = $syncMailer;
@@ -109,7 +117,10 @@ class Mailer extends Component implements MailerInterface
 		return null !== $this->getQueue()->push($job) ? count($messages) : 0;
 	}
 
-	public function getLastJobId(): null|string
+	/**
+	 * @return string|null
+	 */
+	public function getLastJobId(): ?string
 	{
 		return $this->lastJobId;
 	}
