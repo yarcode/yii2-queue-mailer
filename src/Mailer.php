@@ -52,6 +52,10 @@ class Mailer extends Component implements MailerInterface
 		return $this->queue = Instance::ensure($this->queue, Queue::class);
 	}
 
+	/**
+	 * @param string|array|Queue $queue
+	 * @return void
+	 */
 	public function setQueue(string|array|Queue $queue): void
 	{
 		$this->queue = $queue;
@@ -68,15 +72,19 @@ class Mailer extends Component implements MailerInterface
 		return $this->syncMailer = Instance::ensure($this->syncMailer, MailerInterface::class);
 	}
 
+	/**
+	 * @param array $syncMailer
+	 * @return void
+	 */
 	public function setSyncMailer(array $syncMailer): void
 	{
 		$this->syncMailer = $syncMailer;
 	}
 
 	/**
+	 * @throws InvalidConfigException
 	 * @see MailerInterface::compose()
 	 *
-	 * @throws InvalidConfigException
 	 */
 	public function compose(mixed $view = null, array $params = []): MessageInterface
 	{
@@ -84,9 +92,9 @@ class Mailer extends Component implements MailerInterface
 	}
 
 	/**
+	 * @throws InvalidConfigException
 	 * @see MailerInterface::send()
 	 *
-	 * @throws InvalidConfigException
 	 */
 	public function send(mixed $message): bool
 	{
@@ -97,9 +105,9 @@ class Mailer extends Component implements MailerInterface
 	}
 
 	/**
+	 * @throws InvalidConfigException
 	 * @see MailerInterface::sendMultiple()
 	 *
-	 * @throws InvalidConfigException
 	 */
 	public function sendMultiple(mixed $messages): int
 	{
@@ -109,7 +117,10 @@ class Mailer extends Component implements MailerInterface
 		return null !== $this->getQueue()->push($job) ? count($messages) : 0;
 	}
 
-	public function getLastJobId(): null|string
+	/**
+	 * @return string|null
+	 */
+	public function getLastJobId(): ?string
 	{
 		return $this->lastJobId;
 	}

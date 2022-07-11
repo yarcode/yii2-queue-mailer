@@ -9,6 +9,9 @@ use yii\queue\sync\Queue;
 use yii\swiftmailer\Mailer as SwiftMailer;
 use yii\mail\MailerInterface;
 
+/**
+ * Class MailerTest
+ */
 class MailerTest extends TestCase
 {
 	public Mailer $mailer;
@@ -22,6 +25,7 @@ class MailerTest extends TestCase
 	{
 		parent::setUp();
 
+		/** @noinspection PhpFieldAssignmentTypeMismatchInspection Это тесты*/
 		$this->mailer = Yii::createObject([
 			'class' => Mailer::class,
 			'queue' => [
@@ -40,21 +44,36 @@ class MailerTest extends TestCase
 		$this->message->setHtmlBody('test message');
 	}
 
+	/**
+	 * @return void
+	 */
 	public function testInterface(): void
 	{
 		$this->assertInstanceOf(MailerInterface::class, $this->mailer);
 	}
 
+	/**
+	 * @return void
+	 * @throws InvalidConfigException
+	 */
 	public function testSend(): void
 	{
 		$this->assertTrue($this->mailer->send($this->message));
 	}
 
+	/**
+	 * @return void
+	 * @throws InvalidConfigException
+	 */
 	public function testSendMultiple(): void
 	{
 		$this->assertEquals(2, $this->mailer->send([$this->message, $this->message]));
 	}
 
+	/**
+	 * @return void
+	 * @throws InvalidConfigException
+	 */
 	public function testGetLastJobId(): void
 	{
 		$this->mailer->send($this->message);

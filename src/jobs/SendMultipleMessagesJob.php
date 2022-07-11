@@ -10,6 +10,9 @@ use yii\mail\MessageInterface;
 use yii\queue\JobInterface;
 use InvalidArgumentException;
 
+/**
+ * Class SendMultipleMessagesJob
+ */
 class SendMultipleMessagesJob implements JobInterface
 {
 	public array|MessageInterface $messages = [];
@@ -17,10 +20,10 @@ class SendMultipleMessagesJob implements JobInterface
 	public string|Mailer $mailer = Mailer::class;
 
 	/**
-	 * @see JobInterface::execute()
-	 *
 	 * @throws InvalidConfigException
 	 * @throws InvalidArgumentException
+	 * @see JobInterface::execute()
+	 *
 	 */
 	public function execute($queue): int
 	{
