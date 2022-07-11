@@ -18,10 +18,10 @@ class SendMessageJob extends BaseObject implements JobInterface
 	public string|Mailer $mailer = Mailer::class;
 
 	/**
-	 * @see JobInterface::execute()
-	 *
 	 * @throws InvalidConfigException
 	 * @throws InvalidArgumentException
+	 * @see JobInterface::execute()
+	 *
 	 */
 	public function execute($queue): bool
 	{

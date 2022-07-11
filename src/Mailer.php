@@ -74,9 +74,9 @@ class Mailer extends Component implements MailerInterface
 	}
 
 	/**
+	 * @throws InvalidConfigException
 	 * @see MailerInterface::compose()
 	 *
-	 * @throws InvalidConfigException
 	 */
 	public function compose(mixed $view = null, array $params = []): MessageInterface
 	{
@@ -84,9 +84,9 @@ class Mailer extends Component implements MailerInterface
 	}
 
 	/**
+	 * @throws InvalidConfigException
 	 * @see MailerInterface::send()
 	 *
-	 * @throws InvalidConfigException
 	 */
 	public function send(mixed $message): bool
 	{
@@ -97,9 +97,9 @@ class Mailer extends Component implements MailerInterface
 	}
 
 	/**
+	 * @throws InvalidConfigException
 	 * @see MailerInterface::sendMultiple()
 	 *
-	 * @throws InvalidConfigException
 	 */
 	public function sendMultiple(mixed $messages): int
 	{
